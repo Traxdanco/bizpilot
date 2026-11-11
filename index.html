@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BizPilot: Your AI employee for your small business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF4EF;--surface:#FFFFFF;--ink:#0F2E26;--muted:#4C645B;--line:#CFDDD3;--accent:#F5B82E;--accent-ink:#2B2000;--bubble-in:#FFFFFF;--bubble-out:#CDEBD6;
+--head:"Bricolage Grotesque","Trebuchet MS",sans-serif;--body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1A15;--surface:#12261F;--ink:#E8F2EC;--muted:#9DB5A9;--line:#24413A;--accent:#F5B82E;--accent-ink:#2B2000;--bubble-in:#1A332B;--bubble-out:#21513F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B1A15;--surface:#12261F;--ink:#E8F2EC;--muted:#9DB5A9;--line:#24413A;--accent:#F5B82E;--accent-ink:#2B2000;--bubble-in:#1A332B;--bubble-out:#21513F;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 var(--body);-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding:0 1.25rem}
+h1,h2,h3{font-family:var(--head);line-height:1.1;margin:0}
+h1{font-size:clamp(2.3rem,9vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.9rem;font-weight:800;letter-spacing:-.01em;margin-bottom:1rem}
+h3{font-size:1.15rem;font-weight:600}
+p{margin:0 0 1rem;max-width:60ch}
+.brand{font-family:var(--head);font-weight:800;font-size:1.2rem;padding:1.25rem 0 0}
+.hero{padding:2.5rem 0 3rem}
+.hero p.lead{font-size:1.2rem;color:var(--muted);margin:1.2rem 0 1.6rem}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);font:700 1.05rem var(--body);border:0;border-radius:999px;padding:.95rem 1.6rem;text-decoration:none;cursor:pointer}
+.btn:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.chat{margin-top:2.2rem;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+.chat .who{font-size:.85rem;color:var(--muted);margin:0 0 .2rem}
+.b{max-width:85%;padding:.6rem .9rem;border-radius:16px;margin:0;font-size:.98rem;line-height:1.4}
+.in{background:var(--bubble-in);border:1px solid var(--line);border-bottom-left-radius:4px;align-self:flex-start}
+.out{background:var(--bubble-out);border-bottom-right-radius:4px;align-self:flex-end}
+.note{font-size:.88rem;color:var(--muted);margin:.4rem 0 0}
+section{padding:2.6rem 0;border-top:1px solid var(--line)}
+.feat{list-style:none;margin:0;padding:0}
+.feat li{padding:1rem 0;border-bottom:1px solid var(--line)}
+.feat li:last-child{border-bottom:0}
+.feat p{margin:.25rem 0 0;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0;margin:0}
+.chips li{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.4rem .9rem;font-size:.95rem}
+.plan{display:grid;grid-template-columns:1fr auto;gap:.2rem 1rem;padding:1.1rem 0;border-bottom:1px solid var(--line)}
+.plan:last-child{border-bottom:0}
+.plan .price{font:800 1.5rem var(--head);text-align:right}
+.plan .price small{font:400 .85rem var(--body);color:var(--muted)}
+.plan p{grid-column:1/-1;margin:0;color:var(--muted);font-size:.98rem}
+.plan.rec{background:var(--surface);border:2px solid var(--accent);border-radius:16px;padding:1.1rem;margin:.5rem 0}
+.tag{display:inline-block;background:var(--accent);color:var(--accent-ink);font-size:.8rem;font-weight:700;border-radius:999px;padding:.1rem .6rem;margin-left:.4rem;vertical-align:middle}
+form{display:grid;gap:1rem;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:1.25rem}
+label{display:grid;gap:.35rem;font-weight:500}
+input,select{font:400 1rem var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:.8rem .9rem;width:100%}
+.msg{margin:0;font-weight:500}
+.msg.err{color:#B3261E}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .msg.err{color:#FFB4AB}}
+:root[data-theme="dark"] .msg.err{color:#FFB4AB}
+footer{padding:2rem 0 3rem;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion:no-preference){.b{animation:pop .4s ease both}.b:nth-child(3){animation-delay:.5s}.b:nth-child(4){animation-delay:1s}.b:nth-child(5){animation-delay:1.5s}.b:nth-child(6){animation-delay:2s}.note{animation:pop .4s 2.4s ease both}}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{background:radial-gradient(circle at 85% 0,#1F5A47 0,transparent 55%),#0F2E26;color:#F2F7F3;box-shadow:0 0 0 100vmax #0F2E26;clip-path:inset(0 -100vmax);padding:0 0 3.2rem}
+.hero .brand{color:var(--accent);padding:1.4rem 0 0;margin-bottom:2rem;font-size:1.3rem}
+.hero .brand::before{content:"";display:inline-block;width:.7rem;height:.7rem;border-radius:50%;background:var(--accent);margin-right:.5rem}
+.hero p.lead{color:#B9D0C4}
+.hero .btn{padding:1.05rem 1.9rem;font-size:1.1rem;box-shadow:0 8px 24px rgba(245,184,46,.35)}
+.fine{margin:.8rem 0 0;font-size:.9rem;color:#9DB5A9}
+.hero .chat{background:#0B1A15;border:6px solid #21493C;border-radius:30px;padding:1.1rem;margin-top:2.4rem;box-shadow:0 20px 40px rgba(0,0,0,.35)}
+.hero .chat .who{color:#B9D0C4;padding-bottom:.6rem;border-bottom:1px solid #21493C;margin-bottom:.4rem}
+.hero .chat .who::before{content:"";display:inline-block;width:.55rem;height:.55rem;border-radius:50%;background:#3DDC84;margin-right:.5rem}
+.hero .in{background:#1A332B;border-color:#2A5546;color:#F2F7F3}
+.hero .out{background:#187A45;color:#fff}
+.hero .note{color:#9DB5A9}
+h2::after{content:"";display:block;width:2.6rem;height:.3rem;border-radius:9px;background:var(--accent);margin-top:.6rem}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:1rem}
+.steps li{display:flex;gap:1rem;align-items:flex-start}
+.steps b{flex:none;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 1.1rem var(--head)}
+.steps p{margin:.2rem 0 0;color:var(--muted)}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.feat li{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1rem}
+.feat li:last-child{border:1px solid var(--line)}
+.feat li::before{display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:14px;background:var(--bg);font-size:1.4rem;margin-bottom:.6rem}
+.feat li:nth-child(1)::before{content:"🛍️"}.feat li:nth-child(2)::before{content:"💬"}.feat li:nth-child(3)::before{content:"📦"}.feat li:nth-child(4)::before{content:"📣"}.feat li:nth-child(5)::before{content:"🛵"}.feat li:nth-child(6)::before{content:"📈"}
+.feat h3{font-size:1rem}.feat p{font-size:.9rem;line-height:1.45}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.1rem;margin:.7rem 0}
+.plan:last-child{border-bottom:1px solid var(--line)}
+.plan.rec{border:2px solid var(--accent);box-shadow:0 10px 28px rgba(245,184,46,.25);margin:1rem 0}
+.chips li{font-weight:500}
+@media (max-width:360px){.feat{grid-template-columns:1fr}}
+:root{--bg:#F2F6FC;--ink:#0A1630;--muted:#4B5A75;--line:#D5E0F0;--accent:#1F6BFF;--accent-ink:#FFFFFF;--bubble-out:#DCE7F8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1630;--surface:#101F3F;--ink:#E8EEFA;--muted:#9FB0CC;--line:#22345C;--accent:#4C8DFF;--accent-ink:#06102A;--bubble-in:#16264A;--bubble-out:#1B3F8F}}
+:root[data-theme="dark"]{--bg:#0A1630;--surface:#101F3F;--ink:#E8EEFA;--muted:#9FB0CC;--line:#22345C;--accent:#4C8DFF;--accent-ink:#06102A;--bubble-in:#16264A;--bubble-out:#1B3F8F}
+.hero{background:radial-gradient(circle at 85% 0,#1D4ED8 0,transparent 55%),#0A1630;box-shadow:0 0 0 100vmax #0A1630}
+.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding-top:1.4rem;margin-bottom:2rem}
+.hero .brand{display:flex;align-items:center;gap:.6rem;padding:0;margin:0;font-size:1.5rem;color:#fff}
+.hero .brand::before{display:none}
+.hero .brand b{color:#4C8DFF}
+#lang{width:auto;max-width:48%;background:#12234A;color:#fff;border:1px solid #2A4A90;border-radius:999px;padding:.55rem .9rem;font-size:.95rem}
+.hero p.lead{color:#B7C6E3}
+.fine{color:#9FB0CC}
+.hero .btn{background:#1FD1F0;color:#06243A;box-shadow:0 8px 24px rgba(31,209,240,.35)}
+.hero .chat{background:#060E22;border-color:#1E3A78}
+.hero .chat .who{border-bottom-color:#1E3A78;color:#B7C6E3}
+.hero .in{background:#12234A;border-color:#24407F}
+.hero .out{background:#1F6BFF;color:#fff}
+.plan.rec{box-shadow:0 10px 28px rgba(31,107,255,.25)}
+.sbtns{display:flex;flex-wrap:wrap;gap:.8rem}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--line)}
+[hidden]{display:none!important}
+.bt{display:flex;flex-direction:column;line-height:1.05}
+.bt small{font:500 .72rem var(--body);color:#9FB0CC;letter-spacing:.02em;margin-top:.25rem}
+.about p:first-of-type{font-size:1.2rem;color:var(--ink)}
+.about p{color:var(--muted)}
+.tools{margin-top:1.2rem}
+.tools li::before{content:"";display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--accent);margin-right:.5rem}
+footer .pb{margin-top:.6rem;font-weight:500}
+footer .pb b{color:var(--ink)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div class="top"><div class="brand"><svg width="44" height="44" viewBox="0 0 120 120" role="img" aria-label="BizPilot logo"><rect x="19" y="14" width="7" height="7" fill="#1FD1F0"/><rect x="10" y="23" width="7" height="7" fill="#1FD1F0" opacity=".7"/><rect x="19" y="32" width="7" height="7" fill="#1FD1F0" opacity=".4"/><path fill-rule="evenodd" fill="#4C8DFF" d="M30 18H66C84 18 94 28 94 40C94 49 89 55 82 58C92 61 98 69 98 80C98 94 86 102 68 102H30ZM46 32V50H62C68 50 72 47 72 41C72 35 68 32 62 32ZM46 64V88H66C73 88 77 84 77 76C77 68 73 64 66 64Z"/><rect x="52" y="72" width="20" height="13" rx="3" fill="#1FD1F0"/><path d="M57 72V70A2 2 0 0 1 59 68H65A2 2 0 0 1 67 70V72" fill="none" stroke="#1FD1F0" stroke-width="2.4"/><rect x="52" y="77.5" width="20" height="1.6" fill="#4C8DFF"/><path d="M8 74C38 74 72 56 96 34" fill="none" stroke="#0A1630" stroke-width="13" stroke-linecap="round"/><polygon points="106,24 88.5,26 103.5,42" fill="#0A1630" stroke="#0A1630" stroke-width="6" stroke-linejoin="round"/><path d="M8 74C38 74 72 56 96 34" fill="none" stroke="#1FD1F0" stroke-width="6" stroke-linecap="round"/><polygon points="106,24 88.5,26 103.5,42" fill="#1FD1F0" stroke="#1FD1F0" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="bt"><span>Biz<b>Pilot</b></span><small>Manage. Grow. Succeed.</small></span></div><select id="lang" aria-label="Language"><option value="en">English</option><option value="fr">Français</option><option value="ar">العربية</option><option value="sw">Kiswahili</option><option value="rw">Kinyarwanda</option></select></div>
+    <h1>Your AI employee for your shop.</h1>
+    <p class="lead">BizPilot answers your customers, takes orders, and tells you what is selling. All from your phone.</p>
+    <a class="btn" href="#join">Join the waitlist</a>
+    <p class="fine">Free to join. No payment needed.</p>
+    <p class="fine">Other language? Use your browser’s Translate option.</p>
+
+    <div class="chat" aria-label="Example conversation between a customer and BizPilot">
+      <p class="who">A customer messages your shop</p>
+      <p class="b in">Hi, how much are the black sneakers in size 42?</p>
+      <p class="b out">Hello! They are $48 and size 42 is in stock.</p>
+      <p class="b in">Can you do $40?</p>
+      <p class="b out">The best I can do today is $44. Shall I send a payment link?</p>
+      <p class="note">BizPilot never goes below the minimum price you set.</p>
+    </div>
+  </header>
+
+  <section class="about">
+    <h2>One platform for your whole business</h2>
+    <p>BizPilot is your AI employee and growth partner. It helps small and growing businesses attract customers, increase sales, automate daily work, manage staff and deliver a better customer experience.</p>
+    <p>Instead of paying for separate tools for websites, marketing, customer service, orders, staff and deliveries, run everything from one connected platform.</p>
+    <ul class="chips tools"><li>Website</li><li>Marketing</li><li>Customer service</li><li>Orders</li><li>Team</li><li>Deliveries</li></ul>
+  </section>
+
+  <section>
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><b>1</b><div><h3>Add your products</h3><p>Type or snap your items and prices. BizPilot writes the descriptions.</p></div></li>
+      <li><b>2</b><div><h3>Share your shop link</h3><p>Customers browse, ask questions and order. The AI replies for you.</p></div></li>
+      <li><b>3</b><div><h3>Get orders on your phone</h3><p>You and your team are notified and can follow every order to delivery.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>What it does for you</h2>
+    <ul class="feat">
+      <li><h3>Builds your shop page</h3><p>Add your products and get a professional page with prices, photos, reviews and a link you can share.</p></li>
+      <li><h3>Answers customers for you</h3><p>Replies to product and price questions in several languages, and passes hard questions to you.</p></li>
+      <li><h3>Handles orders</h3><p>Collects orders, tracks payment, watches your stock and notifies you and your staff.</p></li>
+      <li><h3>Plans your marketing</h3><p>Writes captions and ads, plans your month of posts and schedules the ones you approve.</p></li>
+      <li><h3>Organizes your team and deliveries</h3><p>Staff accept orders, and customers follow their delivery with a tracking link.</p></li>
+      <li><h3>Shows what is working</h3><p>Weekly reports on sales, best sellers and missed chances, plus ratings from happy customers.</p></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Made for small businesses</h2>
+    <ul class="chips">
+      <li>Online shops</li><li>Clothing boutiques</li><li>Beauty and cosmetics</li><li>Restaurants</li><li>Electronics shops</li><li>Retail stores</li><li>Delivery businesses</li><li>Small teams</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Simple pricing</h2>
+    <div class="plan"><h3>Free</h3><div class="price">$0<small>/month</small></div><p>Basic website, small catalogue, limited AI replies, basic order dashboard.</p></div>
+    <div class="plan"><h3>Starter</h3><div class="price">$9<small>/month</small></div><p>Your own branding, bigger catalogue, AI product descriptions, WhatsApp ordering, monthly content calendar.</p></div>
+    <div class="plan rec"><h3>Growth<span class="tag">Recommended</span></h3><div class="price">$19<small>/month</small></div><p>More AI conversations, marketing campaigns, social scheduling, payment links, follow-ups and advanced sales reports.</p></div>
+    <div class="plan"><h3>Team</h3><div class="price">$39<small>/month</small></div><p>Staff accounts, order assignment, delivery tracking, customer reviews and business analytics.</p></div>
+  </section>
+
+  <section id="join">
+    <h2>Get early access</h2>
+    <p>Tell us about your business. We will contact you when BizPilot is ready to try.</p>
+    <form id="f" novalidate>
+      <label>Your name<input id="n" name="name" autocomplete="name" required></label>
+      <label>Type of business
+        <select id="t" required>
+          <option value="">Choose one</option>
+          <option>Online shop</option><option>Clothing boutique</option><option>Beauty and cosmetics</option><option>Restaurant or food</option><option>Electronics shop</option><option>Retail store</option><option>Delivery business</option><option>Other</option>
+        </select>
+      </label>
+      <label id="oth" hidden>Write your type of business<input id="o" maxlength="80" autocomplete="off"></label>
+      <label>WhatsApp number or email<input id="c" name="contact" autocomplete="off" required></label>
+      <button class="btn" type="submit">Join the waitlist</button>
+      <p class="note">WhatsApp will open with your details ready. Tap Send to finish joining.</p>
+      <p class="note">We use your details only to contact you about BizPilot.</p>
+      <p class="msg" id="m" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="share">
+    <h2>Share with friends</h2>
+    <p>Know a shop owner? Send them BizPilot.</p>
+    <div class="sbtns"><a class="btn" id="wa" href="#" target="_blank" rel="noopener">Share on WhatsApp</a><button class="btn alt" type="button" id="cp">Copy link</button></div>
+    <p class="msg" id="cm" role="status" aria-live="polite"></p>
+  </section>
+
+  <footer><div>BizPilot: one platform, your entire business moving forward.</div><div class="pb">Powered by <b>Trax Danco</b></div></footer>
+</main>
+
+<script>
+(function(){
+  // Owner: put your WhatsApp number here (digits only, with country code) so signups can reach you.
+  var WA_NUMBER = "971553606973";
+  var f=document.getElementById("f"), m=document.getElementById("m");
+  function say(t,err){m.textContent=t;m.className="msg"+(err?" err":"");}
+  f.addEventListener("submit",async function(e){
+    e.preventDefault();
+    var oth=f.t.selectedIndex===f.t.options.length-1,ov=document.getElementById('o').value.trim();var d={name:f.n.value.trim(),business:oth?('Other: '+ov):f.t.value,contact:f.c.value.trim()};if(oth&&!ov){say("Please write your type of business.",true);return;}
+    if(!d.name||!d.business||!d.contact){say("Please fill in your name, business type and contact.",true);return;}
+    var btn=f.querySelector("button");btn.disabled=true;
+    try{
+      if(false){
+        var db=await claude.use("db");
+        if(db){
+          await db.collection("waitlist").doc("w"+Date.now()).set({name:d.name,business:d.business,contact:d.contact,at:new Date().toISOString()});
+          say("Thank you, "+d.name+"! You are on the waitlist.");f.reset();btn.disabled=false;return;
+        }
+      }
+    }catch(err){}
+    if(WA_NUMBER){
+      var txt="Hello BizPilot! Please add me to the waitlist.\nName: "+d.name+"\nBusiness: "+d.business+"\nContact: "+d.contact;
+      var url="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(txt);window.open(url,"_blank");
+      m.className="msg";m.innerHTML='Almost done! If WhatsApp did not open, <a href="'+url+'" target="_blank" rel="noopener"><b>tap here to open WhatsApp</b></a>, then tap Send to finish joining.';btn.disabled=false;return;
+    }
+    say("We could not save your details right now. Please try again later.",true);btn.disabled=false;
+  });
+})();
+</script>
+<script>
+(function(){
+var L=['fr','ar','sw','rw'];
+var D=[
+['Share with friends','Partager avec des amis','شارك مع أصدقائك','Shiriki na marafiki','Sangiza n’inshuti'],
+['Know a shop owner? Send them BizPilot.','Vous connaissez un commerçant ? Envoyez-lui BizPilot.','هل تعرف صاحب متجر؟ أرسل له BizPilot.','Unamjua mwenye duka? Mtumie BizPilot.','Hari nyiri iduka uzi? Mwoherereze BizPilot.'],
+['Share on WhatsApp','Partager sur WhatsApp','شارك عبر واتساب','Shiriki kwenye WhatsApp','Sangiza kuri WhatsApp'],
+['Copy link','Copier le lien','انسخ الرابط','Nakili kiungo','Koporora link'],
+['One platform for your whole business','Une seule plateforme pour toute votre entreprise','منصة واحدة لعملك بالكامل','Jukwaa moja kwa biashara yako yote','Urubuga rumwe rw’ubucuruzi bwawe bwose'],
+['BizPilot is your AI employee and growth partner. It helps small and growing businesses attract customers, increase sales, automate daily work, manage staff and deliver a better customer experience.','BizPilot est votre employé IA et votre partenaire de croissance. Il aide les petites entreprises en croissance à attirer des clients, augmenter leurs ventes, automatiser le travail quotidien, gérer le personnel et offrir une meilleure expérience client.','BizPilot هو موظفك الذكي وشريكك في النمو. يساعد الأعمال الصغيرة والنامية على جذب العملاء وزيادة المبيعات وأتمتة العمل اليومي وإدارة الموظفين وتقديم تجربة أفضل للعملاء.','BizPilot ni mfanyakazi wako wa AI na mshirika wa ukuaji. Husaidia biashara ndogo na zinazokua kuvutia wateja, kuongeza mauzo, kuendesha kazi za kila siku kiotomatiki, kusimamia wafanyakazi na kutoa huduma bora kwa wateja.','BizPilot ni umukozi wawe wa AI n’umufatanyabikorwa mu iterambere. Ifasha ubucuruzi buto n’ubukura gukurura abakiliya, kongera ibicuruzwa, gukora imirimo ya buri munsi mu buryo bwikora, gucunga abakozi no guha abakiliya serivisi nziza.'],
+['Instead of paying for separate tools for websites, marketing, customer service, orders, staff and deliveries, run everything from one connected platform.','Au lieu de payer des outils séparés pour le site web, le marketing, le service client, les commandes, le personnel et les livraisons, gérez tout depuis une seule plateforme connectée.','بدلاً من الدفع مقابل أدوات منفصلة للمواقع والتسويق وخدمة العملاء والطلبات والموظفين والتوصيل، أدر كل شيء من منصة واحدة متصلة.','Badala ya kulipia zana tofauti za tovuti, masoko, huduma kwa wateja, oda, wafanyakazi na uwasilishaji, endesha kila kitu kutoka jukwaa moja lililounganishwa.','Aho kwishyura ibikoresho bitandukanye by’urubuga, iyamamaza, serivisi ku bakiliya, komande, abakozi n’ibyoherezwa, byose bicunge kuri urubuga rumwe.'],
+['Website','Site web','موقع','Tovuti','Urubuga'],
+['Marketing','Marketing','تسويق','Masoko','Iyamamaza'],
+['Customer service','Service client','خدمة العملاء','Huduma kwa wateja','Serivisi ku bakiliya'],
+['Orders','Commandes','الطلبات','Oda','Komande'],
+['Deliveries','Livraisons','التوصيل','Uwasilishaji','Ibyoherezwa'],
+['Write your type of business','Écrivez votre type d’entreprise','اكتب نوع نشاطك','Andika aina ya biashara yako','Andika ubwoko bw’ubucuruzi bwawe'],
+['We use your details only to contact you about BizPilot.','Nous utilisons vos informations uniquement pour vous contacter au sujet de BizPilot.','نستخدم بياناتك فقط للتواصل معك بشأن BizPilot.','Tunatumia taarifa zako kuwasiliana nawe kuhusu BizPilot pekee.','Dukoresha amakuru yawe gusa kugira ngo tukwandikire kuri BizPilot.'],
+['Your AI employee for your shop.','Votre employé IA pour votre boutique.','موظفك الذكي لمتجرك.','Mfanyakazi wako wa AI kwa duka lako.','Umukozi wawe wa AI w’iduka ryawe.'],
+['BizPilot answers your customers, takes orders, and tells you what is selling. All from your phone.','BizPilot répond à vos clients, prend les commandes et vous montre ce qui se vend. Tout depuis votre téléphone.','يرد BizPilot على عملائك ويستقبل الطلبات ويخبرك بما يُباع. كل ذلك من هاتفك.','BizPilot hujibu wateja wako, hupokea oda, na kukuambia nini kinauzwa. Yote kutoka kwenye simu yako.','BizPilot isubiza abakiliya bawe, yakira komande, ikakubwira ibigurishwa cyane. Byose kuri telefone yawe.'],
+['Join the waitlist','Rejoindre la liste d’attente','انضم إلى قائمة الانتظار','Jiunge na orodha ya kusubiri','Injira ku rutonde rw’abategereje'],
+['Free to join. No payment needed.','Inscription gratuite. Aucun paiement requis.','الانضمام مجاني. لا حاجة للدفع.','Kujiunga ni bure. Hakuna malipo yanayohitajika.','Kwinjira ni ubuntu. Nta kwishyura gukenewe.'],
+['Other language? Use your browser’s Translate option.','Autre langue ? Utilisez l’option Traduire de votre navigateur.','لغة أخرى؟ استخدم خيار الترجمة في متصفحك.','Lugha nyingine? Tumia chaguo la Tafsiri kwenye kivinjari chako.','Ururimi rundi? Koresha uburyo bwo guhindura ururimi muri browser yawe.'],
+['A customer messages your shop','Un client écrit à votre boutique','عميل يراسل متجرك','Mteja anawasiliana na duka lako','Umukiliya yandikira iduka ryawe'],
+['Hi, how much are the black sneakers in size 42?','Bonjour, combien coûtent les baskets noires en taille 42 ?','مرحباً، كم سعر الحذاء الرياضي الأسود مقاس 42؟','Habari, viatu vyeusi vya michezo saizi 42 ni bei gani?','Muraho, inkweto z’umukara size 42 ni angahe?'],
+['Hello! They are $48 and size 42 is in stock.','Bonjour ! Elles coûtent 48 $ et la taille 42 est en stock.','أهلاً! سعرها 48 دولاراً والمقاس 42 متوفر.','Karibu! Ni $48 na saizi 42 ipo.','Muraho! Ni $48 kandi size 42 irahari.'],
+['Can you do $40?','Pouvez-vous faire 40 $ ?','هل يمكنك 40 دولاراً؟','Unaweza kunipa kwa $40?','Mwamfasha ku $40?'],
+['The best I can do today is $44. Shall I send a payment link?','Le mieux que je puisse faire aujourd’hui est 44 $. Dois-je envoyer un lien de paiement ?','أفضل سعر اليوم هو 44 دولاراً. هل أرسل رابط الدفع؟','Bei bora ninayoweza leo ni $44. Nikutumie kiungo cha malipo?','Igiciro cyiza nshobora gutanga uyu munsi ni $44. Nkohereze link yo kwishyura?'],
+['BizPilot never goes below the minimum price you set.','BizPilot ne descend jamais sous le prix minimum que vous fixez.','لا ينزل BizPilot أبداً عن الحد الأدنى للسعر الذي تحدده.','BizPilot haishuki kamwe chini ya bei ya chini uliyoweka.','BizPilot ntijya munsi y’igiciro gito wishyiriyeho.'],
+['How it works','Comment ça marche','كيف يعمل','Jinsi inavyofanya kazi','Uko ikora'],
+['Add your products','Ajoutez vos produits','أضف منتجاتك','Ongeza bidhaa zako','Shyiramo ibicuruzwa byawe'],
+['Type or snap your items and prices. BizPilot writes the descriptions.','Saisissez ou photographiez vos articles et prix. BizPilot rédige les descriptions.','اكتب أو صوّر منتجاتك وأسعارها. يكتب BizPilot الأوصاف.','Andika au piga picha bidhaa na bei zako. BizPilot huandika maelezo.','Andika cyangwa ufate ifoto y’ibicuruzwa n’ibiciro. BizPilot yandika ibisobanuro.'],
+['Share your shop link','Partagez le lien de votre boutique','شارك رابط متجرك','Shiriki kiungo cha duka lako','Sangiza link y’iduka ryawe'],
+['Customers browse, ask questions and order. The AI replies for you.','Les clients parcourent, posent des questions et commandent. L’IA répond pour vous.','يتصفح العملاء ويسألون ويطلبون. ويرد الذكاء الاصطناعي نيابة عنك.','Wateja hutazama, huuliza maswali na kuagiza. AI hujibu kwa niaba yako.','Abakiliya barareba, bakabaza kandi bagatumiza. AI igusubiriza.'],
+['Get orders on your phone','Recevez les commandes sur votre téléphone','استلم الطلبات على هاتفك','Pokea oda kwenye simu yako','Akira komande kuri telefone yawe'],
+['You and your team are notified and can follow every order to delivery.','Vous et votre équipe êtes notifiés et suivez chaque commande jusqu’à la livraison.','يصلك أنت وفريقك إشعار ويمكنكم متابعة كل طلب حتى التوصيل.','Wewe na timu yako mnaarifiwa na mnaweza kufuatilia kila oda hadi kuwasilishwa.','Wowe n’abakozi bawe mubimenyeshwa kandi mukurikirana buri komande kugeza itangiwe.'],
+['What it does for you','Ce que ça fait pour vous','ماذا يفعل من أجلك','Inakufanyia nini','Icyo igukorera'],
+['Builds your shop page','Crée la page de votre boutique','ينشئ صفحة متجرك','Hujenga ukurasa wa duka lako','Ikubakira urupapuro rw’iduka'],
+['Answers customers for you','Répond à vos clients','يرد على عملائك','Hujibu wateja wako','Isubiza abakiliya bawe'],
+['Handles orders','Gère les commandes','يدير الطلبات','Hushughulikia oda','Ikurikirana komande'],
+['Plans your marketing','Planifie votre marketing','يخطط لتسويقك','Hupanga masoko yako','Igutegurira iyamamaza'],
+['Organizes your team and deliveries','Organise votre équipe et vos livraisons','ينظم فريقك وتوصيلاتك','Hupanga timu na uwasilishaji','Itegura abakozi n’ibyoherezwa'],
+['Shows what is working','Montre ce qui marche','يُظهر ما ينجح','Huonyesha kinachofanya kazi','Yerekana ibigenda neza'],
+['Made for small businesses','Conçu pour les petites entreprises','مصمم للأعمال الصغيرة','Imetengenezwa kwa biashara ndogo','Yakorewe ubucuruzi buto'],
+['Online shops','Boutiques en ligne','متاجر إلكترونية','Maduka ya mtandaoni','Amaduka yo kuri murandasi'],
+['Beauty and cosmetics','Beauté et cosmétiques','الجمال ومستحضرات التجميل','Urembo na vipodozi','Ubwiza n’amavuta'],
+['Restaurants','Restaurants','مطاعم','Migahawa','Resitora'],
+['Simple pricing','Tarifs simples','أسعار بسيطة','Bei rahisi','Ibiciro byoroshye'],
+['Free','Gratuit','مجاني','Bure','Ubuntu'],
+['/month','/mois','/شهرياً','/mwezi','/ukwezi'],
+['Recommended','Recommandé','موصى به','Inapendekezwa','Irasabwa'],
+['Get early access','Obtenez un accès anticipé','احصل على وصول مبكر','Pata ufikiaji wa mapema','Bona uburyo bwo gukoresha hakiri kare'],
+['Tell us about your business. We will contact you when BizPilot is ready to try.','Parlez-nous de votre entreprise. Nous vous contacterons quand BizPilot sera prêt à essayer.','أخبرنا عن عملك. سنتواصل معك عندما يصبح BizPilot جاهزاً للتجربة.','Tuambie kuhusu biashara yako. Tutawasiliana nawe BizPilot itakapokuwa tayari kujaribiwa.','Tubwire iby’ubucuruzi bwawe. Tuzakwandikira BizPilot nitegura kugeragezwa.'],
+['Your name','Votre nom','اسمك','Jina lako','Izina ryawe'],
+['Type of business','Type d’entreprise','نوع النشاط','Aina ya biashara','Ubwoko bw’ubucuruzi'],
+['Choose one','Choisissez','اختر','Chagua moja','Hitamo kimwe'],
+['Online shop','Boutique en ligne','متجر إلكتروني','Duka la mtandaoni','Iduka rikorera kuri murandasi'],
+['Clothing boutique','Boutique de vêtements','متجر ملابس','Duka la nguo','Iduka ry’imyenda'],
+['Restaurant or food','Restaurant ou alimentation','مطعم أو طعام','Mgahawa au chakula','Resitora cyangwa ibiribwa'],
+['Electronics shop','Magasin d’électronique','متجر إلكترونيات','Duka la vifaa vya elektroniki','Iduka rya elegitoronike'],
+['Retail store','Magasin de détail','متجر تجزئة','Duka la rejareja','Iduka ry’ibicuruzwa'],
+['Delivery business','Entreprise de livraison','نشاط توصيل','Biashara ya uwasilishaji','Ubucuruzi bwo kohereza'],
+['Other','Autre','أخرى','Nyingine','Ikindi'],
+['WhatsApp number or email','Numéro WhatsApp ou e-mail','رقم واتساب أو البريد الإلكتروني','Namba ya WhatsApp au barua pepe','Nimero ya WhatsApp cyangwa imeri'],
+['WhatsApp will open with your details ready. Tap Send to finish joining.','WhatsApp s’ouvrira avec vos informations prêtes. Appuyez sur Envoyer pour terminer.','سيفتح واتساب مع بياناتك جاهزة. اضغط إرسال لإكمال الانضمام.','WhatsApp itafunguka na taarifa zako tayari. Bonyeza Tuma kukamilisha.','WhatsApp irafunguka ifite amakuru yawe. Kanda Ohereza kugira ngo urangize.'],
+['BizPilot: one platform, your entire business moving forward.','BizPilot : une plateforme, toute votre entreprise qui avance.','BizPilot: منصة واحدة وعملك بالكامل يتقدم.','BizPilot: jukwaa moja, biashara yako yote ikisonga mbele.','BizPilot: urubuga rumwe, ubucuruzi bwawe bwose burimbere.']
+];
+var map={};D.forEach(function(r){map[r[0]]=r;});
+var nodes=[],w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),n;
+while(n=w.nextNode()){var t=n.nodeValue.trim();if(map[t]){nodes.push([n,n.nodeValue,t]);}}
+var sel=document.getElementById('lang');
+function apply(c){var i=L.indexOf(c)+1;nodes.forEach(function(x){x[0].nodeValue=i?x[1].replace(x[2],map[x[2]][i]):x[1];});document.documentElement.lang=c;document.documentElement.dir=c==='ar'?'rtl':'ltr';sel.value=c;try{localStorage.setItem('bp_lang',c);}catch(e){}}
+sel.addEventListener('change',function(){apply(sel.value);});
+var T=document.getElementById('t'),O=document.getElementById('oth');T.addEventListener('change',function(){O.hidden=T.selectedIndex!==T.options.length-1;});
+var SHARE_URL='https://claude.ai/artifact/WCzY8zYrZnASRXpEUWjGmG';
+var wa=document.getElementById('wa'),cp=document.getElementById('cp'),cm=document.getElementById('cm');
+wa.href='https://wa.me/?text='+encodeURIComponent('BizPilot: your AI employee for your shop. Join the free waitlist: '+SHARE_URL);
+cp.addEventListener('click',function(){var ok=function(){cm.textContent='Link copied.';};var fail=function(){cm.textContent=SHARE_URL;};try{navigator.clipboard.writeText(SHARE_URL).then(ok,fail);}catch(e){fail();}});
+var s='en';try{s=localStorage.getItem('bp_lang')||'';}catch(e){}
+if(!s){s=(navigator.language||'en').slice(0,2);}
+if(L.indexOf(s)>-1){apply(s);}
+})();
+</script>
+</body>
+</html>
